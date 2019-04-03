@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  #CONTENEDOR 1 -> APP NODEJS
+  app:
+    #DOCKER-COMPOSE BUILD ... (1)
+    build: .
+    image: steezclick/test:latest
+    #VARIABLES DE ENTORNO
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    #PRIMERO SE INICIALIZA MONGO
+    depends_on:
+      - db
+    #PUERTO
+    ports:
+      - "3000:3000"
+    #DOCKER-COMPOSE BUILD ... (2)
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  
+  #CONTENEDOR 2 -> MONGO
+  db:
+    image: mongo
